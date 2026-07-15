@@ -44,9 +44,12 @@ public class Teleop extends LinearOpMode {
     public Hardware robot;
     //Method that gets called when you hit "init"
     @Override
+    //runs when you press init
     public void runOpMode() {
         robot = new Hardware(hardwareMap);
+        robot.init();
 
+        waitForStart();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             // Setup a variable for each drive wheel to save power level for telemetry
@@ -63,6 +66,16 @@ public class Teleop extends LinearOpMode {
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
+            robot.left.setPower(leftPower);
+            robot.right.setPower(rightPower);
+
+            if (gamepad2.y) {
+                robot.openClaw();
+            }
+
+            if (gamepad2.x) {
+                robot.closeClaw();
+            }
 
         }
 
