@@ -9,15 +9,22 @@ public class Hardware {
     
     public DcMotor left;
     public DcMotor right;
-    public Servo claw;
+    public Servo clawL;
+    public Servo clawR;
+    public DcMotor arm;
 
-    public double clawClose = .3;
-    public double clawOpen = .7;
+    public double clawRightClose = .063;
+    public double clawRightOpen = .244;
+    public double clawLeftClose = .978;
+    public double clawLeftOpen = .774;
 
     public Hardware(HardwareMap hwMap) {
         //Drive motors
         left = hwMap.get(DcMotor.class, "lm");
         right = hwMap.get(DcMotor.class, "rm");
+
+        arm = hwMap.get(DcMotor.class, "arm");
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -28,19 +35,25 @@ public class Hardware {
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         //Servos
-        claw = hwMap.get(Servo.class, "claw");
+        clawL = hwMap.get(Servo.class, "clawL");
+        clawR = hwMap.get(Servo.class, "clawR");
     }
+
     public void init() {
         openClaw();
     }
 
     public void openClaw() {
-        claw.setPosition(clawOpen);
+        clawL.setPosition(clawLeftOpen);
+        clawR.setPosition(clawRightOpen);
     }
 
     public void closeClaw() {
-        claw.setPosition(clawOpen);
+        clawL.setPosition(clawLeftClose);
+        clawR.setPosition(clawRightClose);
     }
 
 }

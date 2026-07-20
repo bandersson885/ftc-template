@@ -61,8 +61,8 @@ public class Teleop extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double drive = gamepad1.left_stick_y;
+            double turn  =  -gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
@@ -76,6 +76,14 @@ public class Teleop extends LinearOpMode {
             if (gamepad2.x) {
                 robot.closeClaw();
             }
+
+            if(gamepad2.right_bumper){
+                robot.arm.setPower(0.5);
+            }
+            if(gamepad2.left_bumper){
+                robot.arm.setPower(-0.5);
+            }
+
 
         }
 

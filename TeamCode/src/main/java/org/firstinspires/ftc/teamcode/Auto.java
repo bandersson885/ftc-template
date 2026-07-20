@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "Best Auto")
 public class Auto extends LinearOpMode {
+    public double ticksPerInch = 0;
+    public double ticksPerDegree = 0;
     public Hardware robot;
 
     //When you press init
@@ -31,8 +34,6 @@ public class Auto extends LinearOpMode {
         robot.left.setPower(-power);
         robot.right.setPower(power);
         sleep(duration);
-        robot.left.setPower(0);
-        robot.right.setPower(0);
     }
 
     public void turnRight(double power, long duration) {
@@ -49,6 +50,57 @@ public class Auto extends LinearOpMode {
         sleep(duration);
         robot.left.setPower(0);
         robot.right.setPower(0);
+    }
+
+    public void forwardEncoder(double power, double inches) {
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int ticks = (int) (inches * ticksPerInch);
+
+        robot.left.setTargetPosition(ticks);
+        robot.right.setTargetPosition(ticks);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.left.setPower(power);
+        robot.right.setPower(power);
+
+    }
+
+    public void turnLeftEncoder(double power, double degrees) {
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int ticks = (int) (degrees * ticksPerDegree);
+
+        robot.left.setTargetPosition(ticks);
+        robot.right.setTargetPosition(-ticks);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.left.setPower(power);
+        robot.right.setPower(power);
+
+    }
+
+    public void turnRightEncoder(double power, double degrees) {
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int ticks = (int) (degrees * ticksPerDegree);
+
+        robot.left.setTargetPosition(-ticks);
+        robot.right.setTargetPosition(ticks);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.left.setPower(power);
+        robot.right.setPower(power);
+
     }
 
 }
