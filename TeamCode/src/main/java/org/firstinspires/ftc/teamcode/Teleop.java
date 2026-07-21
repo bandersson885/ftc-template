@@ -50,6 +50,7 @@ public class Teleop extends LinearOpMode {
         robot.init();
 
         waitForStart();
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             // Setup a variable for each drive wheel to save power level for telemetry
@@ -63,8 +64,8 @@ public class Teleop extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = gamepad1.left_stick_y;
             double turn  =  -gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+            leftPower    = Range.clip(drive - turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive + turn, -1.0, 1.0) ;
 
             robot.left.setPower(leftPower);
             robot.right.setPower(rightPower);
@@ -77,11 +78,13 @@ public class Teleop extends LinearOpMode {
                 robot.closeClaw();
             }
 
-            if(gamepad2.right_bumper){
-                robot.arm.setPower(0.5);
+            if(!gamepad2.right_bumper && !gamepad2.left_bumper){
+                robot.arm.setPower(-0.0001);
             }
-            if(gamepad2.left_bumper){
-                robot.arm.setPower(-0.5);
+            else if(gamepad2.left_bumper){
+                robot.arm.setPower(-0.15);
+            }else if(gamepad2.right_bumper){
+                robot.arm.setPower(0.15);
             }
 
 
