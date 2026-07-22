@@ -17,18 +17,15 @@ public class Auto extends LinearOpMode {
         robot.init();
         //Waits for u to press start button
         waitForStart();
-
-        robot.left.setPower(0.6);
-        robot.right.setPower(0.6);
-        sleep(1000); //Waiting one second
-
-        robot.left.setPower(0);
-        robot.right.setPower(0);
-
+        robot.openClaw();
+        robot.arm.setPower(-0.6);
+        sleep(700);
+        robot.arm.setPower(0.00012);
+        forward(0.2,2000);
+        sleep(100);
+        turnRight(0.2, 700);
+        forward(0.2,2000);
         robot.closeClaw();
-
-        //turn
-        turnLeft(0.6, 500);
     }
     public void turnLeft(double power, long duration) {
         robot.left.setPower(-power);
